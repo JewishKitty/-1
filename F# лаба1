@@ -15,12 +15,12 @@ let rec main () =
   match Double.TryParse(input) with
    |(true, number) when number >= 0.0 && number<171.0 ->
     if (number-ceil(number)<>0.0) then
-     printfn "Ошибка! Введите натуральное число или 0!"
+     printfn "Ошибка! Введите натуральное число меньше 171 или 0!"
      if_number_float_fakt()
     else 
      number
    | _ ->
-    printfn "Ошибка! Введите натуральное число или 0!"
+    printfn "Ошибка! Введите натуральное число меньше 171 или 0!"
     if_number_float_fakt()
 //=================================
  let rec if_number_float() =
