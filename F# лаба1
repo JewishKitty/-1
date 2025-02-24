@@ -1,0 +1,185 @@
+open System
+let rec main () =
+ let continuation() = 
+  printfn "\nВведите 'y' (англ.) для продолжения "
+  let continuationinput = System.Console.ReadLine()
+  if continuationinput = "y" then 
+    main()
+  else 
+    printfn "done"
+//==============================
+
+ let rec if_number_float_fakt() =
+  printfn "Введите значение(не более 170) "
+  let input = System.Console.ReadLine()
+  match Double.TryParse(input) with
+   |(true, number) when number >= 0.0 && number<171.0 ->
+    if (number-ceil(number)<>0.0) then
+     printfn "Ошибка! Введите натуральное число или 0!"
+     if_number_float_fakt()
+    else 
+     number
+   | _ ->
+    printfn "Ошибка! Введите натуральное число или 0!"
+    if_number_float_fakt()
+//=================================
+ let rec if_number_float() =
+   printfn "Введите значение "
+   let input = System.Console.ReadLine()
+   match Double.TryParse(input) with
+    |(true, number) -> 
+     number
+    | _ ->
+     printfn "Ошибка! Введите вещественное число!"
+     if_number_float()
+//==========================
+ let rec if_number_int() =
+   printfn "Введите значение "
+   let input = System.Console.ReadLine()
+   match Int32.TryParse(input) with
+    |(true, number) -> 
+     number
+    | _ ->
+     printfn "Ошибка! Введите целое число!"
+     if_number_int()
+//=========================
+     
+ 
+ let factorial x = 
+  let rec TF x a = 
+   if x<=1.0 then
+    a
+   else
+    TF (x-1.0) (a*x)
+  TF x 1.0
+//============================================ 
+ let rec readNumbers () =
+    let rec loop acc =
+        printfn "Введите число (или 'stop' для завершения): "
+        let input = System.Console.ReadLine()
+        match System.Double.TryParse(input) with
+         | (true, number) -> loop (number :: acc)
+         | _ when input = "stop" -> acc
+         | _ ->
+            printfn "Ошибка! Введите вещественное число!"
+            loop acc
+    let numbers = loop []
+    let result = List.rev (List.map abs numbers)
+    result
+//========================================================
+ let rec getList () =
+    let rec loop acc =
+        printfn "Введите число (или 'stop' для завершения): "
+        let input = System.Console.ReadLine()
+        match System.Double.TryParse(input) with
+         | (true, number) -> loop (number :: acc)
+         | _ when input = "stop" -> acc
+         | _ ->
+            printfn "Ошибка! Введите вещественное число!"
+            loop acc
+    let numbers = loop []
+    let result = List.rev (numbers)
+    result
+   
+//============================
+// Добавление элемента в список
+ let rec append list elem =
+    match list with
+    | [] -> [elem]
+    | head :: tail -> head :: (append tail elem)
+
+// Удаление элемента из списка
+ let rec remove list elem =
+    match list with
+    | [] -> []
+    | head :: tail -> if head = elem then tail else head :: (remove tail elem)
+
+// Поиск элемента в списке (возвращает номер, если найден или -1 если не найден)
+ let rec contains list elem a =
+    match list with
+    | [] -> -1
+    | head :: tail -> if head = elem then a else contains tail elem (a+1)
+
+// Сцепка двух списков
+ let rec concat list1 list2 =
+    match list1 with
+    | [] -> list2
+    | head :: tail -> head :: (concat tail list2)
+
+// Получение элемента по индексу (начиная с 0)
+ let rec getElement list index =
+    match list, index with
+    | [], _ -> 
+     printfn "Индекс вне границ"
+     -1.7E+308
+    | head :: _, 0 -> head
+    | _ :: tail, _ -> getElement tail (index - 1)
+//==========================================
+ let rec choice () =
+  printfn "Выберите операцию "
+  let input = System.Console.ReadLine()
+  match System.Int32.TryParse(input) with
+   |(true, number) -> 
+    if number = 1 then
+     let list1 = readNumbers()
+     List.iter (fun p -> printf "%.3f " p) list1
+     continuation()
+    elif number = 2 then
+     let x = if_number_float_fakt()
+     let z = factorial x
+     printfn "%.0f " z
+     continuation()
+    elif number = 3 then 
+     printfn "Выберите операцию над списком"
+     let inputList = if_number_int()
+     if inputList = 1 then
+      printfn "Введите список "
+      let list1 = getList()
+      printfn "Введите значение "
+      let elem = if_number_float()
+      let list3 = append list1 elem
+      List.iter (fun p -> printf "%.3f " p) list3
+      continuation()
+     elif inputList = 2 then
+      printfn "Введите список "
+      let list1 = getList()
+      printfn "Введите значение "
+      let elem = if_number_float()
+      let list3 = remove list1 elem
+      List.iter (fun p -> printf "%.3f " p) list3
+      continuation()
+     elif inputList = 3 then
+      printfn "Введите список "
+      let list1 = getList()
+      let elem = if_number_float()
+      let is_there_elem = contains list1 elem 0
+      printfn "%A " is_there_elem
+      continuation()
+     elif inputList = 4 then
+      printfn "Введите первый список "
+      let list1 = getList()
+      printfn "Введите второй список "
+      let list2 = getList()
+      let list3 = concat list1 list2
+      List.iter (fun p -> printf "%.3f " p) list3
+      continuation()
+     elif inputList = 5 then
+      printfn "Введите список "
+      let list1 = getList()
+      let index = if_number_int()
+      
+      let elem = getElement list1 index
+      printfn "%.3f " elem
+      continuation()
+     else 
+      printfn "Нет операции с подходящим номером "
+      choice()
+     
+    else  printfn "Нет доступных операций с таким номером "
+   | _ ->
+    printfn "Нет доступных операций с таким номером "
+    choice()
+ 
+ choice()
+
+main()
