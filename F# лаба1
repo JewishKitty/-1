@@ -116,7 +116,7 @@ let rec main () =
     | _ :: tail, _ -> getElement tail (index - 1)
 //==========================================
  let rec choice () =
-  printfn "Выберите операцию "
+  printfn "Выберите операцию(1 - список модулей введённых чисел, 2 - вычисление факториала числа, 3 - операции со списками) "
   let input = System.Console.ReadLine()
   match System.Int32.TryParse(input) with
    |(true, number) -> 
@@ -130,7 +130,7 @@ let rec main () =
      printfn "%.0f " z
      continuation()
     elif number = 3 then 
-     printfn "Выберите операцию над списком"
+     printfn "Выберите операцию над списком(1 - добавление элемента, 2 - Удаление элемента, 3 - нахождение индекса элемента по значению(начиная с нуля), 4 - сцепка списков, 5 - поиск значения по индексу)"
      let inputList = if_number_int()
      if inputList = 1 then
       printfn "Введите список "
